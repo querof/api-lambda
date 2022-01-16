@@ -101,12 +101,18 @@ Resources:
         S3Bucket: !Ref CodeBucket
         S3Key: !Ref functionSource
       Description: AWS Lambda function
-      FunctionName: 'lambda-function'
+      FunctionName: 'api-lambda-function'
       Handler: dist/app.handler
       MemorySize: 256
       Role: !GetAtt LambdaIamRole.Arn
       Runtime: nodejs14.x
       Timeout: 60
+  
+  lambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: "/aws/lambda/api-lambda-function"
+      RetentionInDays: 90
 
   LambdaIamRole:
     Type: AWS::IAM::Role
@@ -120,4 +126,15 @@ Resources:
                 - 'lambda.amazonaws.com'
             Action:
               - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: allowLambdaLogs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - logs:*
+              Resource: arn:aws:logs:*:*:*
       Path: '/'
+
+      
