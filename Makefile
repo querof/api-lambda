@@ -11,7 +11,14 @@ build:
 	aws s3 cp ./dist/api-lambda.zip s3://querof-labmbda-bucket/
 
 deploy:
+	make build
 	aws cloudformation deploy --stack-name api-lambda  --template-file cloudformation.yaml --capabilities CAPABILITY_IAM
 
 delete:
 	aws cloudformation delete-stack --stack-name api-lambda
+
+run_api_locally:
+	sam local start-api --template cloudformation.yaml
+
+run_lambda_locally:
+	sam local invoke  -d 9999 LambdaFunction --template cloudformation.yaml
