@@ -16,3 +16,9 @@ deploy:
 
 delete:
 	aws cloudformation delete-stack --stack-name api-lambda
+
+run_api_locally:
+	sam local start-api --template cloudformation.yaml
+
+run_lambda_locally:
+	sam local invoke  -d 9999 LambdaFunction --template cloudformation.yaml

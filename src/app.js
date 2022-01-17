@@ -1,31 +1,31 @@
-exports.handler = async function(event) {
-    const  postageapp  = require('postageapp');
-    const PostApp = new postageapp('UslZu52EC5gtwFSWmLjfH7NTCxlBJw87');
+const aws = require("aws-sdk");
+const ses = new aws.SES({ region: "eu-west-1" });
+exports.handler =  function (event) {
+  var params = {
+    Destination: {
+      ToAddresses: ["querof@gmail.com"],
+    },
+    Message: {
+      Body: {
+        Text: { Data: "Test" },
+      },
 
-    const options = {
-      recipients: "querof@gmail.com",
-    
-      subject: "This is a test of send email",
-      from: "frank@theinsidersnet.com",
-    
-      content: {
-        'text/html': '<strong>This message is a test.</strong>',
-        'text/plain': 'This message is a test'
+      Subject: { Data: "Test Email" },
+    },
+    Source: "frank@theinsidersnet.com",
+  };
+
+  const response = ses.sendEmail(params
+    , function (err, data) {
+      if (err) console.log(err, err.stack);
+      else {
+        console.log(data);
+        return data;
       }
-    }
-
-    // const emailResponse = PostApp.sendMessage(options, function callback() {});
-    PostApp.sendMessage(options).then((response) => {
-      console.log('HTTP Status code: ', response.statusCode);
-      console.log('Message UID', object.response.uid);
-    }).catch((error) => {
-      console.error(error);
     });
 
-    const response = {
-      statusCode: '200',
-      body: 'Email sent'
-    }
-
-    return response;
+  return {
+    statusCode: '200',
+    body: response
+  }
 }
