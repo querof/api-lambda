@@ -15,17 +15,16 @@ exports.handler =  function (event) {
     Source: "frank@theinsidersnet.com",
   };
 
-  const response = ses.sendEmail(params
-    , function (err, data) {
-      if (err) console.log(err, err.stack);
-      else {
-        console.log(data);
-        return data;
-      }
+    // const emailResponse = PostApp.sendMessage(options, function callback() {});
+    response = await PostApp.sendMessage(options).then((response) => {
+      console.log('HTTP Status code: ', response.statusCode);
+      console.log('Message UID', object.response.uid);
+    }).catch((error) => {
+      console.error(error);
     });
 
-  return {
-    statusCode: '200',
-    body: response
-  }
+    return {
+      statusCode: '200',
+      body: 'Email sent'
+    }
 }
