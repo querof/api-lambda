@@ -1,14 +1,6 @@
-const aws = require("aws-sdk");
-const ses = new aws.SES({ region: "eu-west-1" });
-exports.handler =  function (event) {
-  var params = {
-    Destination: {
-      ToAddresses: ["querof@gmail.com"],
-    },
-    Message: {
-      Body: {
-        Text: { Data: "Test" },
-      },
+exports.handler = async function(event) {
+    const postageapp  = require('postageapp');
+    const PostApp = new postageapp('UslZu52EC5gtwFSWmLjfH7NTCxlBJw87');
 
       Subject: { Data: "Test Email" },
     },

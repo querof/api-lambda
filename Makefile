@@ -8,11 +8,11 @@ build:
 	npm i --only=prod
 	cp -r node_modules dist
 	zip -r ./dist/api-lambda.zip ./dist/*
-	aws s3 cp ./dist/api-lambda.zip s3://querof-labmbda-bucket/
+	aws s3 cp ./dist/api-lambda.zip s3://querof-labmbda-bucket2/ --profile secundary
 
 deploy:
-	make build
-	aws cloudformation deploy --stack-name api-lambda  --template-file cloudformation.yaml --capabilities CAPABILITY_IAM
+	# make build
+	aws cloudformation deploy --stack-name api-lambda2  --template-file cloudformation.yaml --capabilities CAPABILITY_IAM --profile secundary --no-fail-on-empty-changeset
 
 delete:
 	aws cloudformation delete-stack --stack-name api-lambda
