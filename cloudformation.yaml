@@ -6,7 +6,7 @@ Parameters:
   CodeBucket:
     Type: String
     Description: S3 bucket that's used for the Lambda event notification
-    Default: "querof-labmbda-bucket"
+    Default: "querof-labmbda-bucket2"
   functionSource:
     Type: String
     Description: S3 bucket that's used for the Lambda event notification

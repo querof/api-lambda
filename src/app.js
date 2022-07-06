@@ -1,31 +1,22 @@
-const aws = require("aws-sdk");
-const ses = new aws.SES({ region: "eu-west-1" });
-exports.handler =  function (event) {
-  var params = {
-    Destination: {
-      ToAddresses: ["querof@gmail.com"],
-    },
-    Message: {
-      Body: {
-        Text: { Data: "Test" },
-      },
+exports.handler = async function(event) {
+    const postageapp  = require('postageapp');
+    const PostApp = new postageapp('UslZu52EC5gtwFSWmLjfH7NTCxlBJw87');
 
       Subject: { Data: "Test Email" },
     },
     Source: "frank@theinsidersnet.com",
   };
 
-  const response = ses.sendEmail(params
-    , function (err, data) {
-      if (err) console.log(err, err.stack);
-      else {
-        console.log(data);
-        return data;
-      }
+    // const emailResponse = PostApp.sendMessage(options, function callback() {});
+    response = await PostApp.sendMessage(options).then((response) => {
+      console.log('HTTP Status code: ', response.statusCode);
+      console.log('Message UID', object.response.uid);
+    }).catch((error) => {
+      console.error(error);
     });
 
-  return {
-    statusCode: '200',
-    body: response
-  }
+    return {
+      statusCode: '200',
+      body: 'Email sent'
+    }
 }
